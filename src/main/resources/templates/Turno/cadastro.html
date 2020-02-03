@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head><meta charset="UTF-8"/></head>
+<body>
+	    <section class="layout-content" layout:fragment="corpo">
+	
+	        <nav class="navbar navbar-expand-md bg-light">
+	            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+	                <ul class="navbar-nav mr-auto">
+	                    <li class="nav-item active">
+	                        <i class="oi oi-caret-right"></i>
+	                        <span th:if="${turno.id==null}">Cadastrar Turno</span>
+	                        <span th:unless="${turno.id==null}">Edição de Turno - [[${turno.nome}]]</span>
+	                    </li>
+	                </ul>
+	            </div>
+	            <a class="btn btn-primary btn-md" th:href="@{/turnos}" role="button">
+	                <span class="oi oi-spreadsheet" title="Cadastro" aria-hidden="true"></span>
+	                <span>Listar Turnos</span>
+	            </a>
+	        </nav>
+	
+	        <div class="container" id="cadastro">	        	
+	        	<div th:replace="fragments/alert"></div>
+	           
+	            <ul class="nav nav-tabs js-abas">
+                  <li class="nav-item">
+                     <a class="nav-link active" href="#nav-cadastro">Cadastro</a>
+                  </li>
+  
+                  <li class="nav-item">
+                     <a class="nav-link" href="#nav-detalhe">Horários</a>
+                  </li>
+                </ul>
+	           
+	            <div class="tab-content" id="nav-tabContent">
+	                <div class="tab-pane fade show active" id="nav-cadastro" role="tabpanel" aria-labelledby="nav-home-tab">
+	                   <div style="margin-top: 15px;">
+                       <form th:action="${turno.id == null} ? @{/turnos/salvar} : @{/turnos/editar}" 
+	                     th:object="${turno}" method="POST">
+	                
+	                      <div th:replace="fragments/validacao  :: validacao"></div>
+	                
+	                      <div class="form-row">
+	                         <div class="form-group col-md-6">
+	                           <label for="nome">Turno</label>
+	                           <input type="text" class="form-control" id="nome" placeholder="Turno" 
+	                        		autofocus="autofocus" th:field="*{nome}"/>
+	                         </div>
+	                         <div class="form-group col-md-2">
+	                           <label for="abrev">Abreviatura</label>
+	                           <input type="text" class="form-control" id="abrev" placeholder="Aberviado" 
+	                        		th:field="*{abrev}"/>
+	                         </div>
+	                      </div>
+	                      <input type="hidden" id="id" th:field="*{id}"/>
+	                      <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
+	                   </form>
+	                   </div>	                
+	                </div>
+	                <!-- Tab Cadastro -->
+	                
+	                <div class="tab-pane fade" id="nav-detalhe" role="tabpanel" aria-labelledby="nav-profile-tab">
+	                   <div style="padding-top: 12px;">
+                          <div class="form-row">
+	                         <div class="form-group col-md-6">
+	                            <input type="text" class="form-control" id="horario-input" placeholder="Insira o horario"/>
+	                         </div>	
+	                         <div class="form-group col-md-4 align-self-center">
+                                <button class="btn btn-primary btn-sm js-btn-add" data:url="@{/turnos/{id}/item (id=${turno.id})}">Adicionar</button>
+                             </div>
+                          </div>		                    	
+	                   </div>
+	                
+                       <div class="table-responsive js-tabela-horarios-container">
+                           <table class="table table-striped table-hover table-sm">
+                             <thead>
+                                <tr>
+                                   <th>#</th>
+                                   <th>Horario</th>
+                                </tr>
+                             </thead>
+                             <tbody>
+	                            <tr th:each="i : ${itens}">
+	                               <td th:text="${i.id}">1</td>
+	                               <td th:text="${i.nome}">07:30 - 08:20</td>
+	                            </tr>	
+                             </tbody>
+                           </table>
+                       </div>
+	                </div>
+	            </div>
+	           	<!-- Tabs -->           	        
+	        </div>
+	       	       
+	    </section>
+	    
+        <th:block layout:fragment="javascript-extra">
+           <script th:src="@{/js/turno-horario.js}"></script>
+	       <script>
+	          $(function() {
+		        $('.js-abas a').click(function (e) {
+			       e.preventDefault();
+			       $(this).tab('show');
+		        });
+	          });
+	      </script>
+       </th:block>	    
+</body>
+</html>		

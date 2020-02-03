@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body>
+			<nav class="sidebar sidebar-open" th:fragment="nav-sidebar">
+				<ul class="nav nav-pills">
+					<li class="nav-item"><a class="nav-link " th:href="@{/}"> <i
+							class="oi oi-home"></i> <span>Home</span>
+					</a></li>
+				</ul>
+				<ul class="nav nav-pills">
+					<li class="nav-item"><span class="nav-link active" >Cadastros</span></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/departamentos/listar}"><i class="oi oi-plus"></i>
+					    <span>Departamentos</span></a>
+					</li>					
+					<li class="nav-item"><a class="nav-link" th:href="@{/cargos/listar}"><i class="oi oi-plus"></i>
+					    <span>Cargos</span></a>
+					</li>					
+					<li class="nav-item"><a class="nav-link" th:href="@{/funcionarios/listar}"><i class="oi oi-plus"></i>
+					    <span>Funcionários</span></a>
+					</li>										
+					<li class="nav-item"><a class="nav-link" th:href="@{/turnos/listar}"><i class="oi oi-plus"></i>
+					    <span>Turnos</span></a>
+					</li>										
+					<li class="nav-item"><a class="nav-link" th:href="@{/cursos/listar}"><i class="oi oi-plus"></i>
+					    <span>Cursos</span></a>
+					</li>										
+					<li class="nav-item"><a class="nav-link" th:href="@{/disciplinas/listar}"><i class="oi oi-plus"></i>
+					    <span>Disciplinas</span></a>
+					</li>										
+					<li class="nav-item"><a class="nav-link" th:href="@{/professores/listar}"><i class="oi oi-plus"></i>
+					    <span>Professores</span></a>
+					</li>										
+					
+				</ul>
+
+				<ul class="nav nav-pills">
+					<li class="nav-item"><span class="nav-link active" >Configuração</span></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/agconfiguracoes/listar}"><i class="oi oi-plus"></i>
+					    <span>Algoritimo Genetico</span></a>
+					</li>										
+				</ul>
+				<ul class="nav nav-pills">
+					<li class="nav-item"><span class="nav-link active" >Processamento</span></li>
+				</ul>
+
+			</nav>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head><meta charset="UTF-8"/></head>
+<body>
+	
+	    <section class="layout-content" layout:fragment="corpo">
+	
+	        <nav class="navbar navbar-expand-md bg-light">
+	            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+	                <ul class="navbar-nav mr-auto">
+	                    <li class="nav-item active">
+	                        <i class="oi oi-caret-right"></i>
+	                        <span>Cadastrar Disciplinas</span>
+	                    </li>
+	                </ul>
+	                <a class="btn btn-primary btn-md" th:href="@{/disciplinas}" role="button">
+	                    <span class="oi oi-spreadsheet" title="Listar" aria-hidden="true"></span>
+	                    <span>Listar Disciplinas</span>
+	                </a>
+	            </div>
+	        </nav>
+	
+	        <div class="container" id="cadastro">
+	        
+	        	<div th:replace="fragments/alert"></div>
+	        	
+				<form th:action="${disciplina.id == null} ? @{/disciplinas/salvar} : @{/disciplinas/editar}" 
+				      th:object="${disciplina}" method="POST">
+	        		
+	        		<div th:replace="fragments/validacao :: validacao"></div>
+				    
+				    <div class="form-row">
+				        <div class="form-group col-md-6">
+				            <label for="nome">Disciplina</label>
+				            <input type="text" class="form-control" id="nome"
+				                   placeholder="Nome da disciplina" autofocus="autofocus" th:field="*{nome}"/>
+				        </div>
+				    </div>
+				    
+				    <div class="form-row">
+				        <div class="form-group col-md-2">
+				            <label for="sigla">Sigla</label>
+				            <input type="text" class="form-control" id="sigla"
+				                   placeholder="Sigla" th:field="*{sigla}"/>
+				        </div>
+				    </div>
+				    
+				    <div class="form-row">
+				        <div class="form-group col-md-4">
+				            <label for="numeroSemestres">Número de semestres</label>
+				            <input type="text" class="form-control" id="numeroSemestres"
+				                   placeholder="Semestres" th:field="*{numeroSemestres}"/>
+				        </div>
+				        <div class="form-group col-md-4">
+				            <label for="numeroCreditos">Número de créditos</label>
+				            <input type="text" class="form-control" id="numeroCreditos"
+				                   placeholder="Créditos" th:field="*{numeroCreditos}"/>
+				        </div>
+				    </div>
+
+	                <div class="form-row">
+	                    <div class="form-group col-md-6">
+	                        <label for="curso">Curso</label>
+	                        <select id="curso" class="form-control" th:field="*{curso}"
+	                                th:classappend="${#fields.hasErrors('curso')} ? 'is-invalid'">
+	                            <option value="">Selecione...</option>
+	                            <option th:each="c : ${cursos}" th:value="${c.id}" th:text="${c.nome}"></option>
+	                        </select>
+	                        <div class="invalid-feedback">
+								<span th:errors="*{curso}"></span>
+	                        </div>
+	                    </div>
+	                </div>
+				    
+				    <input type="hidden" id="id" th:field="*{id}"/>
+				    <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
+				</form>
+	        </div>
+	    </section>
+</body>
+</html>

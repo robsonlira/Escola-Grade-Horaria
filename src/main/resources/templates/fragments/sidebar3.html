@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body>
+			<nav class="sidebar sidebar-open" th:fragment="nav-sidebar">
+				<ul class="nav nav-pills">
+					<li class="nav-item"><a class="nav-link " th:href="@{/}"> <i
+							class="oi oi-home"></i> <span>Home</span>
+					</a></li>
+				</ul>
+				
+                <div class="sidebar-search">
+                   <div>
+                      <div class="input-group">
+                         <input type="text" class="form-control search-menu" placeholder="Buscar..."
+                             autofocus="autofocus"></input>
+                         <div class="input-group-append">
+                            <span class="input-group-text">
+                               <i class="fas fa-search" aria-hidden="true"></i>
+                            </span>
+                         </div>
+                      </div>
+                   </div>
+                </div>				
+
+				<ul class="list-unstyled components">
+					<li class="active">
+					    <a href="#cadastroSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Cadastros</a>
+                        <ul class="collapse list-unstyled" id="cadastroSubmenu">
+   					       <li>
+   						      <a th:href="@{/departamentos}">Departamentos</a>
+   					       </li>
+   					       <li>
+   						      <a th:href="@{/cargos}">Cargos</a>
+   					       </li>
+   					       <li>
+   						      <a th:href="@{/funcionarios}">Funcionários</a>
+   					       </li>
+   					       <li>
+   						      <a th:href="@{/turnos}">Turnos</a>
+   					       </li>
+   					       <li>
+   						      <a th:href="@{/cursos}">Cursos</a>
+   					       </li>
+   					       <li>
+   						      <a th:href="@{/disciplinas}">Disciplinas</a>
+   					       </li>
+   					       <li>
+   						      <a th:href="@{/professores}">Professores</a>
+   					       </li>
+   					       
+					       <li>
+					          <a th:href="@{/agconfiguracoes}">Algoritimo Genetico</a>
+					       </li>										
+   					       
+   					       
+   				        </ul> 					    					    
+					</li>										
+				</ul>
+			</nav>
+</body>
+</html>
