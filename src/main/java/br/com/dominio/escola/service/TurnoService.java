@@ -11,10 +11,12 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.dominio.escola.model.Horario;
 import br.com.dominio.escola.model.Turno;
 import br.com.dominio.escola.repository.Turnos;
 import br.com.dominio.escola.service.exceptions.DataIntegrityException;
 import br.com.dominio.escola.service.exceptions.ObjectNotFoundException;
+import br.com.dominio.escola.service.exceptions.RegistroJaCadastradoException;
 
 @Service
 public class TurnoService {
@@ -31,8 +33,13 @@ public class TurnoService {
 	@Transactional
 	public Turno insert(Turno obj) {
 		obj.setId(null);
-		obj = repo.save(obj);
-		return obj;
+		
+		Optional<Turno> optional = repo.findByNomeIgnoreCase(obj.getNome());
+		if (optional.isPresent()) {
+			throw new RegistroJaCadastradoException("Registro já existe");
+		}		
+		
+		return repo.save(obj);
 	}
 
 	public Turno update(Turno obj) {
@@ -40,7 +47,13 @@ public class TurnoService {
 		newObj.setNome(obj.getNome());
 		newObj.setAbrev(obj.getAbrev());
 		
-		return repo.save(newObj);
+		try {
+			obj = repo.save(newObj);	
+		} catch ( DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Violação de integridade de dados " + e.getMessage());	
+		}
+		
+		return obj;
 	}
 
 	public void delete(Integer id) {

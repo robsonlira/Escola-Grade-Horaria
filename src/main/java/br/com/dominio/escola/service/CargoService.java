@@ -31,14 +31,28 @@ public class CargoService {
 	@Transactional
 	public Cargo insert(Cargo obj) {
 		obj.setId(null);
-		obj = repo.save(obj);
+
+		try {
+			obj = repo.save(obj);	
+		} catch ( DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Violação de integridade de dados " + e.getMessage());	
+		}
+
 		return obj;
 	}
 
 	public Cargo update(Cargo obj) {
 		Cargo newObj = find(obj.getId());
+		newObj.setNome(obj.getNome());
+		newObj.setDepartamento(obj.getDepartamento());
+
+		try {
+			obj = repo.save(newObj);	
+		} catch ( DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Violação de integridade de dados " + e.getMessage());	
+		}
 		
-		return repo.save(newObj);
+		return obj;
 	}
 
 	public void delete(Integer id) {

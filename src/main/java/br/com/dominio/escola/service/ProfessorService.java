@@ -31,14 +31,28 @@ public class ProfessorService {
 	@Transactional
 	public Professor insert(Professor obj) {
 		obj.setId(null);
-		obj = repo.save(obj);
+
+		try {
+			obj = repo.save(obj);	
+		} catch ( DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Violação de integridade de dados " + e.getMessage());	
+		}
+
 		return obj;
 	}
 
 	public Professor update(Professor obj) {
 		Professor newObj = find(obj.getId());
 		
-		return repo.save(newObj);
+        newObj.setNome(obj.getNome());
+		
+		try {
+			obj = repo.save(newObj);	
+		} catch ( DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Violação de integridade de dados " + e.getMessage());	
+		}
+		
+		return obj;
 	}
 
 	public void delete(Integer id) {

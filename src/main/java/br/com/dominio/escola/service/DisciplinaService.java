@@ -31,14 +31,26 @@ public class DisciplinaService {
 	@Transactional
 	public Disciplina insert(Disciplina obj) {
 		obj.setId(null);
-		obj = repo.save(obj);
+		try {
+			obj = repo.save(obj);	
+		} catch ( DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Violação de integridade de dados " + e.getMessage());	
+		}
+
 		return obj;
 	}
 
 	public Disciplina update(Disciplina obj) {
 		Disciplina newObj = find(obj.getId());
+		newObj.setNome(obj.getNome());
+		  
+		try {
+			obj = repo.save(newObj);	
+		} catch ( DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Violação de integridade de dados " + e.getMessage());	
+		}
 		
-		return repo.save(newObj);
+		return obj;
 	}
 
 	public void delete(Integer id) {

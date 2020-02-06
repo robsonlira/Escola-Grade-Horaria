@@ -31,14 +31,29 @@ public class FuncionarioService {
 	@Transactional
 	public Funcionario insert(Funcionario obj) {
 		obj.setId(null);
-		obj = repo.save(obj);
+		try {
+			obj = repo.save(obj);	
+		} catch ( DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Violação de integridade de dados " + e.getMessage());	
+		}
+
 		return obj;
 	}
 
 	public Funcionario update(Funcionario obj) {
 		Funcionario newObj = find(obj.getId());
+        newObj.setNome(obj.getNome());
+        newObj.setEndereco(obj.getEndereco());
+        newObj.setCargo(obj.getCargo());
+        newObj.setSalario(obj.getSalario());
+        
+		try {
+			obj = repo.save(newObj);	
+		} catch ( DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Violação de integridade de dados " + e.getMessage());	
+		}
 		
-		return repo.save(newObj);
+		return obj;
 	}
 
 	public void delete(Integer id) {

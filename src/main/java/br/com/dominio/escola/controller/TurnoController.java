@@ -62,7 +62,13 @@ public class TurnoController {
 			return cadastrar(registro);
 		}
 		
-		service.insert(registro);
+		try {
+		   service.insert(registro);
+		} catch (RegistroJaCadastradoException e) {
+			result.rejectValue("nome", e.getMessage(), e.getMessage());
+			return cadastrar(registro);
+		}
+		
 		attr.addFlashAttribute("success", "Registro inserido com sucesso.");
 		return new ModelAndView("redirect:/turnos/cadastrar");
 	}
@@ -106,12 +112,7 @@ public class TurnoController {
 		ModelAndView mv = new ModelAndView("/turno/tabelaHorarios");
 		horario.setTurno(turno);	
 		
-		try {
-			horario = horarioService.insert(horario);
-		} catch (RegistroJaCadastradoException e) {
-			//result.rejectValue("nome", e.getMessage(), e.getMessage());
-			return cadastrar(turno);
-		}
+		horario = horarioService.insert(horario);
 				
 		mv.addObject("itens", horarioService.findByTurno(turno.getId()));						
 		return mv;

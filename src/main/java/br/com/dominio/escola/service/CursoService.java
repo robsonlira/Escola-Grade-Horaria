@@ -31,14 +31,26 @@ public class CursoService {
 	@Transactional
 	public Curso insert(Curso obj) {
 		obj.setId(null);
-		obj = repo.save(obj);
+		try {
+			obj = repo.save(obj);	
+		} catch ( DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Violação de integridade de dados " + e.getMessage());	
+		}
+
 		return obj;
 	}
 
 	public Curso update(Curso obj) {
 		Curso newObj = find(obj.getId());
+		newObj.setNome(obj.getNome());
 		
-		return repo.save(newObj);
+		try {
+			obj = repo.save(newObj);	
+		} catch ( DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Violação de integridade de dados " + e.getMessage());	
+		}
+		
+		return obj;
 	}
 
 	public void delete(Integer id) {

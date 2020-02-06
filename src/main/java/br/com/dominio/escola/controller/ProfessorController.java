@@ -59,9 +59,6 @@ public class ProfessorController {
 	public ModelAndView preEditar(@PathVariable("id") Professor professor) {
 		ModelAndView mv = cadastrar(professor);
 					
-		//for (HorarioProfessor hp : professor.getHorariosProfessor()) {
-			//hp.id.horario.nome
-		//}				
 		mv.addObject(professor);
 		mv.addObject("itens", professor.getHorariosProfessor());		
 		return mv;

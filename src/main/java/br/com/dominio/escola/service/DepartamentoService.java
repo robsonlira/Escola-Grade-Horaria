@@ -31,14 +31,27 @@ public class DepartamentoService {
 	@Transactional
 	public Departamento insert(Departamento obj) {
 		obj.setId(null);
-		obj = repo.save(obj);
+		
+		try {
+			obj = repo.save(obj);	
+		} catch ( DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Violação de integridade de dados " + e.getMessage());	
+		}
+				
 		return obj;
 	}
 
 	public Departamento update(Departamento obj) {
 		Departamento newObj = find(obj.getId());
 		newObj.setNome(obj.getNome());
-		return repo.save(newObj);
+		
+		try {
+			obj = repo.save(newObj);	
+		} catch ( DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Violação de integridade de dados " + e.getMessage());	
+		}
+		
+		return obj;
 	}
 
 	public void delete(Integer id) {

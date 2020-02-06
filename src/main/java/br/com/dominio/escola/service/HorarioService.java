@@ -33,19 +33,27 @@ public class HorarioService {
 	public Horario insert(Horario obj) {
 		obj.setId(null);
 
-		Optional<Horario> optional = repo.findByNomeIgnoreCase(obj.getNome());
-		if (optional.isPresent()) {
-			throw new RegistroJaCadastradoException("Registro já existe");
+		try {
+			obj = repo.save(obj);	
+		} catch ( DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Violação de integridade de dados " + e.getMessage());	
 		}
-		
-		return repo.save(obj);	
+
+		return obj;
 	}
 
 	public Horario update(Horario obj) {
 		Horario newObj = find(obj.getId());
 		newObj.setNome(obj.getNome());
 		newObj.setTurno(obj.getTurno());
-		return repo.save(newObj);
+
+		try {
+			obj = repo.save(newObj);	
+		} catch ( DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Violação de integridade de dados " + e.getMessage());	
+		}
+		
+		return obj;		
 	}
 
 	public void delete(Integer id) {
@@ -69,7 +77,5 @@ public class HorarioService {
 	public Page<Horario> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
-	}
-	
-	
+	}		
 }
