@@ -37,7 +37,7 @@
 	                <div class="tab-pane fade show active" id="nav-cadastro" role="tabpanel" aria-labelledby="nav-home-tab">
 	                   <div style="margin-top: 15px;">
                        <form th:action="${turno.id == null} ? @{/turnos/salvar} : @{/turnos/editar}" 
-	                     th:object="${turno}" method="POST">
+	                     th:object="${turno}" method="POST" id="form-cadastro">
 	                
 	                      <div th:replace="fragments/validacao  :: validacao"></div>
 	                
@@ -66,6 +66,7 @@
                           <div class="form-row">
 	                         <div class="form-group col-md-6">
 	                            <input type="text" class="form-control" id="horario-input" placeholder="Insira o horario"/>
+	                            <div id="alert"></div>
 	                         </div>	
 	                         <div class="form-group col-md-4 align-self-center">
                                 <button class="btn btn-primary btn-sm js-btn-add" data:url="@{/turnos/{id}/item (id=${turno.id})}">Adicionar</button>
@@ -74,7 +75,7 @@
 	                   </div>
 	                
                        <div class="table-responsive js-tabela-horarios-container">
-                           <table class="table table-striped table-hover table-sm">
+                           <table class="table table-striped table-hover table-sm" id="tabela">
                              <thead>
                                 <tr>
                                    <th>#</th>

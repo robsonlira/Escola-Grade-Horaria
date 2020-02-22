@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Horario implements Serializable {
 
@@ -33,6 +35,7 @@ public class Horario implements Serializable {
 	@JoinColumn(name="turno_id")
 	private Turno turno;	
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="id.horario")
 	private Set<HorarioProfessor> horariosProfessor = new HashSet<>();
 	

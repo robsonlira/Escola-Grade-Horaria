@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Turno implements Serializable {
 
@@ -29,6 +31,7 @@ public class Turno implements Serializable {
 	@Column(name="abrev", length = 3)	
 	private String abrev;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="turno")
 	private List<Horario> horarios = new ArrayList<>();
 

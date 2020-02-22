@@ -36,7 +36,7 @@ public class HorarioService {
 		try {
 			obj = repo.save(obj);	
 		} catch ( DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Violação de integridade de dados " + e.getMessage());	
+			throw new DataIntegrityException("Violação de integridade de dados.");	
 		}
 
 		return obj;
@@ -50,7 +50,7 @@ public class HorarioService {
 		try {
 			obj = repo.save(newObj);	
 		} catch ( DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Violação de integridade de dados " + e.getMessage());	
+			throw new DataIntegrityException("Violação de integridade de dados.");	
 		}
 		
 		return obj;		

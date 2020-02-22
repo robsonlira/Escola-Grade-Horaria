@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.dominio.escola.model.Horario;
 import br.com.dominio.escola.model.Turno;
+import br.com.dominio.escola.model.pojo.TabelaHorario;
 import br.com.dominio.escola.service.HorarioService;
 import br.com.dominio.escola.service.TurnoService;
 import br.com.dominio.escola.service.exceptions.DataIntegrityException;
@@ -106,7 +108,7 @@ public class TurnoController {
 		return ResponseEntity.ok().build();
 	}
 	
-	
+/*	
 	@PostMapping("/{id}/item")
 	public ModelAndView adicionarHorario(Horario horario, @PathVariable("id") Turno turno) {
 		ModelAndView mv = new ModelAndView("/turno/tabelaHorarios");
@@ -116,6 +118,29 @@ public class TurnoController {
 				
 		mv.addObject("itens", horarioService.findByTurno(turno.getId()));						
 		return mv;
-	}	
+	}*/	
+
+	@PostMapping("/{id}/item")
+	public ResponseEntity<?> adicionarHorario(Horario horario, @PathVariable("id") Turno turno) {
+		
+		TabelaHorario tabelaHorario = new TabelaHorario();		
+		horario.setTurno(turno);	
+				
+		
+		try {
+			horario = horarioService.insert(horario);			
+		} catch (DataIntegrityException e) {
+			tabelaHorario.setMsg(e.getMessage());
+			return ResponseEntity.status(500).body(tabelaHorario);
+		} catch (Exception e) {			
+			tabelaHorario.setMsg(e.getMessage());
+			return ResponseEntity.badRequest().body(tabelaHorario);			
+		}
 			
+		tabelaHorario.setMsg("success");				
+		tabelaHorario.setResult(horarioService.findByTurno(turno.getId()));		 
+        return ResponseEntity.ok(tabelaHorario);
+	}	
+	
+	
 }
